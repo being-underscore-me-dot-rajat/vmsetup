@@ -1,0 +1,45 @@
+1. Software (one line at a time, then close PowerShell and open a new window)
+winget install --id Python.Python.3.13 -e --accept-package-agreements --accept-source-agreements
+winget install --id Microsoft.VisualStudioCode -e --accept-package-agreements --accept-source-agreements
+winget install --id Git.Git -e --accept-package-agreements --accept-source-agreements
+winget install --id Ollama.Ollama -e --accept-package-agreements --accept-source-agreements
+winget install --id Microsoft.VCRedist.2015+.x64 -e --accept-package-agreements --accept-source-agreements
+If winget isn't available, download and install these by hand instead: python.org (3.13, tick "Add to PATH"), code.visualstudio.com, git-scm.com and ollama.com.
+
+2. VS Code extensions
+code --install-extension ms-python.python
+code --install-extension ms-python.vscode-pylance
+code --install-extension ms-toolsai.jupyter
+
+3. Python environment and libraries (about 15 minutes)
+cd C:\NSSF
+py -3.13 -m venv DAY1\Labs\work\fund-ai\.venv
+DAY1\Labs\work\fund-ai\.venv\Scripts\python.exe -m pip install --upgrade pip
+DAY1\Labs\work\fund-ai\.venv\Scripts\python.exe -m pip install -r VM_Setup\requirements-all.txt
+If py isn't found, use python -m venv DAY1\Labs\work\fund-ai\.venv instead.
+
+4. Only if the VM has an NVIDIA GPU (check with nvidia-smi; skip this step if it says the command isn't found)
+DAY1\Labs\work\fund-ai\.venv\Scripts\python.exe -m pip uninstall -y torch
+DAY1\Labs\work\fund-ai\.venv\Scripts\python.exe -m pip install torch==2.6.0 --index-url https://download.pytorch.org/whl/cu124 --extra-index-url https://pypi.org/simple
+
+5. spaCy model and Jupyter kernel
+DAY1\Labs\work\fund-ai\.venv\Scripts\python.exe -m spacy download en_core_web_sm
+DAY1\Labs\work\fund-ai\.venv\Scripts\python.exe -m ipykernel install --user --name fund-ai --display-name "Python (fund-ai)"
+
+6. Models (about 8 GB; the Ollama app must be running)
+ollama pull qwen2.5:1.5b
+ollama pull llama3.2:1b
+ollama pull gemma2:2b
+ollama pull qwen2.5:0.5b
+DAY1\Labs\work\fund-ai\.venv\Scripts\python.exe -c "from huggingface_hub import snapshot_download as d; [d(m) for m in ['Qwen/Qwen2.5-0.5B-Instruct','distilbert-base-multilingual-cased','intfloat/multilingual-e5-small','sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2']]"
+
+7. Check that it worked
+DAY1\Labs\work\fund-ai\.venv\Scripts\python.exe -c "import pandas, sklearn, xgboost, prophet, dask, torch, transformers, peft, sentence_transformers, faiss, spacy, fastapi, mlflow; print('OK, GPU:', torch.cuda.is_available())"
+
+8. Run the benchmark
+DAY1\Labs\work\fund-ai\.venv\Scripts\python.exe VM_Setup\benchmark_lab_vm.py --users 5
+This runs a Python file, which PowerShell's script policy doesn't block. If your VM also blocks Python files, tell me and I'll give you the benchmark as a notebook you can run in Jupyter instead. Adding --skip-llm leaves out the Ollama test if Ollama isn't installed.
+
+If something fails:
+- If pip install fails with a "path too long" error, put the course in a short folder like C:\NSSF.
+- If that's not enough, create the environment at C:\fund-ai-venv instead, and use that path in place of DAY1\Labs\work\fund-ai\.venv in every command.
