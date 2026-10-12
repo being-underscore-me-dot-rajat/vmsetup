@@ -1,0 +1,47 @@
+{
+  "machine": {
+    "computer": "ZENITH",
+    "os": "Windows-11-10.0.26200-SP0",
+    "python": "3.13.14",
+    "cpu": "Intel64 Family 6 Model 186 Stepping 2, GenuineIntel",
+    "logical_cpus": 12,
+    "ram_gb": 16.8,
+    "physical_cpus": 8,
+    "free_disk_gb": 29.6,
+    "torch": "2.6.0+cu124",
+    "gpu": "NVIDIA GeForce RTX 4050 Laptop GPU",
+    "gpu_memory_gb": 6.4
+  },
+  "details": {
+    "pandas_2.4M_rows": "CSV write 7.8s, CSV read 1.8s, Parquet write+read 2.8s, group-bys 1.7s, table in memory 487 MB",
+    "dask": "9 partitions",
+    "xgboost_backtest": "8 model fits + permutation importance on 20 columns",
+    "xgboost_500k": "500k rows, 300 trees, all cores",
+    "clustering": "15,000 members x 8 features",
+    "anomaly": "34k payments",
+    "forecasting": "4 SARIMA + 5 Prophet fits",
+    "torch_mlp": "on cuda",
+    "autoencoder": "on cuda",
+    "bert_finetune": "4270 messages in 19s -> about 0.3 min per epoch of the real lab (GPU)",
+    "lora_finetune": "5 epoch(s) in 21s -> about 0.3 min for the lab's 5 epochs",
+    "hf_generation": "25 tokens/s -> Day 8 Lab 3 (66 answers) about 5.3 min",
+    "embeddings": "358 passages/s",
+    "ollama": "gemma2:2b: 85 tok/s for one user; 5 users at once: 68 tok/s total, slowest answer 18s | qwen2.5:1.5b: 116 tok/s for one user; 5 users at once: 95 tok/s total, slowest answer 13s"
+  },
+  "compare": {
+    "pandas_2.4M_rows": 17.8,
+    "dask": 4.1,
+    "xgboost_backtest": 3.4,
+    "xgboost_500k": 7.6,
+    "clustering": 3.2,
+    "anomaly": 5.7,
+    "forecasting": 8.5,
+    "torch_mlp": 13.5,
+    "autoencoder": 13.8,
+    "bert_finetune": 19.0,
+    "lora_finetune": 21.0,
+    "hf_generation": 26.2,
+    "embeddings": 11.3,
+    "ollama": 55.8
+  }
+}
